@@ -1,0 +1,233 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>人力资源管理系统-首页</title>
+	<base href="/hrms/static">
+	<link href="plugins/fullPage/jquery.fullPage.css" rel="stylesheet"/>
+	<link href="plugins/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="plugins/material-design-iconic-font-2.2.0/css/material-design-iconic-font.min.css" rel="stylesheet"/>
+	<link href="plugins/waves-0.7.5/waves.min.css" rel="stylesheet"/>
+	<link href="plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
+	<link href="css/admin.css" rel="stylesheet"/>
+	<style>
+	/** skins **/
+	#zheng-upms-server #header {background: #29A176;}
+	#zheng-upms-server .content_tab{background: #29A176;}
+	#zheng-upms-server .s-profile>a{background: url(images/zheng-upms.png) left top no-repeat;}
+	
+	#zheng-cms-admin #header {background: #455EC5;}
+	#zheng-cms-admin .content_tab{background: #455EC5;}
+	#zheng-cms-admin .s-profile>a{background: url(images/zheng-cms.png) left top no-repeat;}
+	
+	#zheng-pay-admin #header {background: #F06292;}
+	#zheng-pay-admin .content_tab{background: #F06292;}
+	#zheng-pay-admin .s-profile>a{background: url(images/zheng-pay.png) left top no-repeat;}
+	
+	#zheng-ucenter-home #header {background: #6539B4;}
+	#zheng-ucenter-home .content_tab{background: #6539B4;}
+	#zheng-ucenter-home .s-profile>a{background: url(images/zheng-ucenter.png) left top no-repeat;}
+	
+	#zheng-oss-web #header {background: #0B8DE5;}
+	#zheng-oss-web .content_tab{background: #0B8DE5;}
+	#zheng-oss-web .s-profile>a{background: url(images/zheng-oss.png) left top no-repeat;}
+	
+	#test #header {background: test;}
+	#test .content_tab{background: test;}
+	#test .s-profile>a{background: url(test) left top no-repeat;}
+	</style>
+</head>
+<body>
+<header id="header">
+	<ul id="menu">
+		<li id="guide" class="line-trigger">
+			<div class="line-wrap">
+				<div class="line top"></div>
+				<div class="line center"></div>
+				<div class="line bottom"></div>
+			</div>
+		</li>
+		<li id="logo" class="hidden-xs">
+			<a href="index.html">
+				<img src="images/logo.png"/>
+			</a>
+			<span id="system_title">人力资源管理系统</span>
+		</li>
+		<li class="pull-right">
+			<ul class="hi-menu">
+
+				<li class="dropdown">
+					<a class="waves-effect waves-light" data-toggle="dropdown" href="javascript:;">
+						<i class="him-icon zmdi zmdi-dropbox"></i>
+					</a>
+					<ul class="dropdown-menu dm-icon pull-right">
+						
+						<li class="skin-switch">
+							请选择背景
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a class="waves-effect switch-systems"  systemid="1" systemname="zheng-upms-server" ><i class="glyphicon glyphicon-chevron-right"></i>　　绿色清新</a>
+						</li>
+						
+						<li>
+							<a class="waves-effect switch-systems"  systemid="1" systemname="zheng-cms-admin" systemtitle="人力资源管理系统"><i class="glyphicon glyphicon-chevron-right"></i>　　蓝色商务</a>
+						</li>
+						
+						<li>
+							<a class="waves-effect switch-systems"  systemid="1" systemname="zheng-pay-admin" systemtitle="人力资源管理系统"><i class="glyphicon glyphicon-chevron-right"></i>　　粉色少女</a>
+						</li>
+						
+						<li>
+							<a class="waves-effect switch-systems"  systemid="1" systemname="zheng-ucenter-home" systemtitle="人力资源管理系统"><i class="glyphicon glyphicon-chevron-right"></i>　　紫色骚气</a>
+						</li>
+						
+						<li>
+							<a class="waves-effect switch-systems"  systemid="1" systemname="zheng-oss-web" systemtitle="人力资源管理系统"><i class="glyphicon glyphicon-chevron-right"></i>　　浅蓝活泼</a>
+						</li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a class="waves-effect waves-light" data-toggle="dropdown" href="javascript:;">
+						<i class="him-icon zmdi zmdi-more-vert"></i>
+					</a>
+					<ul class="dropdown-menu dm-icon pull-right">
+						<li class="hidden-xs">
+							<a class="waves-effect" data-ma-action="fullscreen" href="javascript:fullPage();"><i class="zmdi zmdi-fullscreen"></i> 全屏模式</a>
+						</li>
+						<li>
+							<a class="waves-effect" href="http://localhost:8080/hrms/user/logout"><i class="zmdi zmdi-run"></i> 退出登录</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</header>
+<section id="main">
+	<!-- 左侧导航区 -->
+	<aside id="sidebar">
+		<!-- 个人资料区 -->
+		<div class="s-profile">
+			<a class="waves-effect waves-light" href="javascript:;">
+				<div class="sp-pic">
+					<img src="images/avatar.jpg"/>
+				</div>
+				<div class="sp-info">
+					您好，欢迎登陆人力资源管理系统！
+					<i class="zmdi zmdi-caret-down"></i>
+				</div>
+			</a>
+			<ul class="main-menu">
+				<li>
+					<a class="waves-effect" href="http://localhost:8080/hrms/user/logout"><i class="zmdi zmdi-run"></i> 退出登录</a>
+				</li>
+			</ul>
+		</div>
+		<!-- /个人资料区 -->
+		<!-- 菜单区 -->
+		<ul class="main-menu">
+			<li>
+			<a class="waves-effect" href="javascript:Tab.addTab('首页', 'home');"><i class="zmdi zmdi-home"></i> 首页</a>
+			</li>
+			<li class="sub-menu system_menus system_1 0">
+			<a class="waves-effect" href="javascript:;"><i class="zmdi zmdi-accounts-list"></i> 机构管理</a>
+			<ul>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('部门管理', 'department.html');">部门管理</a></li>
+			</ul>
+			</li>
+			<li class="sub-menu system_menus system_1 3">
+			<a class="waves-effect" href="javascript:;"><i class="zmdi zmdi-accounts"></i> 行政管理</a>
+			<ul>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('入职管理', 'addstaff.html');">入职管理</a></li>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('人事档案管理', 'staff.html');">人事档案管理</a></li>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('人事调动管理', 'transfer.html');">人事调动管理</a></li>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('考勤管理', 'check.html');">考勤管理</a></li>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('薪资管理', 'salary.html');">薪资管理</a></li>
+			</ul>
+			</li>
+			<li class="sub-menu system_menus system_1 6">
+			<a class="waves-effect" href="javascript:;"><i class="zmdi zmdi-lock-outline"></i> 权限管理</a>
+			<ul>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('用户管理', 'user.html');">用户账号管理</a></li>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('权限管理', '');">用户权限管理(暂未开发)</a></li>
+			</ul>
+			</li>
+			<li class="sub-menu system_menus system_1 7">
+			<a class="waves-effect" href="javascript:;"><i class="zmdi zmdi-more"></i> 文件管理</a>
+			<ul>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('公共码表', 'file.html');">公司制度文件管理</a></li>
+			</ul>
+			</li>
+
+			<div class="upms-version">
+				多俊睿 | 张锐 | 方箫 | 吴娜 | 黄锦乐
+			</div>
+			<div class="upms-version">
+				&copy; GROUP-FOUR V1.5
+			</div>
+			
+			</li>
+		</ul>
+		<!-- /菜单区 -->
+	</aside>
+	<!-- /左侧导航区 -->
+	<section id="content">
+		<div class="content_tab">
+			<div class="tab_left">
+				<a class="waves-effect waves-light" href="javascript:;"><i class="zmdi zmdi-chevron-left"></i></a>
+			</div>
+			<div class="tab_right">
+				<a class="waves-effect waves-light" href="javascript:;"><i class="zmdi zmdi-chevron-right"></i></a>
+			</div>
+			<ul id="tabs" class="tabs">
+				<li id="tab_home" data-index="home" data-closeable="false" class="cur">
+					<a class="waves-effect waves-light">首页</a>
+				</li>
+			</ul>
+		</div>
+		<div class="content_main">
+			<div id="iframe_home" class="iframe cur">
+				<p><h4>人力资源管理系统 </h4></p>
+				<p><b>演示地址</b>：<a href="http://localhost:8080/hrms/login.html" target="_blank">http://localhost:8080/hrms/login.html</a></p>
+				<br /><br />
+				<p><h4>系统功能概述：</h4></p>
+				<p><b>机构管理</b>：公司组织机构的增加、删除、修改、查询功能。</p>
+				<p><b>行政管理</b>：入职管理、人事档案管理、人事调动管理、考勤管理、薪资管理等功能的增加、删除、修改、查询功能。</p>
+				<p><b>权限管理</b>：用户账号管理的增加、删除、修改、查询功能。（用户权限管理暂未开发）</p>
+				<p><b>文件管理</b>：制度文件管理的增加、删除、修改、查询功能。</p>
+				<br /><br />
+				<p><h4>项目开发历程：</h4></p>
+				<p><b>Now</b>：项目进行验收，期待您的点评！谢谢大家！；</p>
+				<p><b>2018年8月29日</b>：总结前一天的测试问题，并进一步完善；</p>
+				<p><b>2018年8月28日</b>：前后端全部交互完成，进一步调试数据传输之间的Bug等，所有人运行最终项目，进行人工测试；</p>
+				<p><b>2018年8月27日</b>：完成前端主要布局，各组员分工完成自己的模块交互；</p>
+				<p><b>2018年8月26日</b>：后端功能全部实现，准备对接前端调试；</p>
+				<p><b>2018年8月24日</b>：模块划分，小组分配任务；</p>
+				<p><b>2018年8月23日</b>：开会确立最终功能模块并设计类图、数据库、接口；</p>
+				<p><b>2018年8月21日</b>：需求调研，小组讨论调研结果并分析需要拥有的功能。</p>
+				<br /><br />
+				<p><h4>关于作者</h4></p>
+				<p><b>项目学习小组</b>：第四组</p>
+				<p><b>小组成员</b>：多俊睿、张锐、方箫、吴娜、黄锦乐</p>
+			</div>
+		</div>
+	</section>
+</section>
+<footer id="footer"></footer>
+
+<script src="plugins/jquery.1.12.4.min.js"></script>
+<script src="plugins/bootstrap-3.3.0/js/bootstrap.min.js"></script>
+<script src="plugins/waves-0.7.5/waves.min.js"></script>
+<script src="plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="plugins/BootstrapMenu.min.js"></script>
+<script src="plugins/device.min.js"></script>
+<script src="plugins/fullPage/jquery.fullPage.min.js"></script>
+<script src="plugins/fullPage/jquery.jdirk.min.js"></script>
+<script src="plugins/jquery.cookie.js"></script>
+
+<script src="js/admin.js"></script>
+</body>
+</html>

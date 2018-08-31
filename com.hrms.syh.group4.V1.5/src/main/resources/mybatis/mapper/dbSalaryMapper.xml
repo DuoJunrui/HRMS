@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hrms.syh.salary.mapper.IDbSalaryMapper">
+
+	<resultMap id="salaryBean" type="DbSalary" autoMapping="true">
+		<id column="salary_id" property="id" />
+		<result column="staff_name" property="staff_name" javaType="double"/>
+		<result column="basic_wage" property="basic_wage" javaType="double" />
+		<result column="merit_pay" property="merit_pay" javaType="double" />
+		<result column="rewards" property="rewards" javaType="double" />
+		<result column="salary_date" property="salary_date" javaType="long" />
+		<result column="remarks" property="remarks" />
+
+		<!-- 多对一的关系 -->
+		<!-- property: 指的是属性名称, javaType：指的是属性的类型 -->
+		<association property="staff" javaType="DbStaff">
+			<id column="staff_id" property="id" />
+			<result column="staffName" property="name" />
+			<result column="staffSex" property="sex" />
+			<result column="staffAge" property="age" javaType="int" />
+			<result column="staffTel" property="tel" />
+			<result column="staff_department" property="staff_department" />
+			<result column="staff_position" property="staff_position" />
+			<result column="entry_time" property="entry_time" />
+			<result column="leave_time" property="leave_time" />
+		</association>
+	</resultMap>
+	
+	<!-- 添加工资记录 -->
+	<insert id="insertSalary">
+		INSERT INTO db_salary
+		VALUES(
+			#{salary.id},
+			(SELECT id FROM db_staff WHERE db_staff.`name` = #{salary.staffName} ),
+			#{salary.basic_wage},
+			#{salary.merit_pay},
+			#{salary.rewards},
+			#{salary.salary_date},
+			#{salary.remarks},
+			#{salary.isdelete}
+			)
+	</insert>
+	
+	<!-- 删除语句，工资单ID-->
+	<delete id="deleteSalary">
+		UPDATE db_salary SET isdelete='1'
+		WHERE id=#{id}
+	</delete>
+	
+	<!-- 查询所有工资记录 -->
+	<select id="selectSalary" resultType="DbSalary">
+		SELECT db_salary.id,
+			   db_staff.name,
+			   db_salary.basic_wage,
+			   db_salary.merit_pay,
+			   db_salary.rewards,
+			   db_salary.salary_date,
+			   db_salary.remarks
+	    FROM db_salary
+		INNER JOIN	 db_staff 
+		ON db_salary.staff_name = db_staff.id
+		WHERE db_salary.isdelete=0
+	</select>
+	
+	<!-- 更新语句;根据员工姓名和工资月份备注修改工资信息 -->
+	<update id="updateSalary">
+		UPDATE db_salary 
+		<set>
+		<if test="basic_wage!=0">
+		basic_wage=#{basic_wage},
+		</if>
+		<if test="merit_pay!=0">
+		merit_pay=#{merit_pay},
+		</if>
+		<if test="rewards!=0">
+		rewards=#{rewards},
+		</if>
+		<if test="remarks==null">
+		remarks=#{remarks}
+		</if>
+		</set>
+		WHERE (salary_date=#{salary_date} AND staff_name=(SELECT id FROM db_staff WHERE name=#{staff_name}) )
+	</update>
+	
+</mapper>

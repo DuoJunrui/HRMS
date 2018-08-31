@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrms.syh.transfer.mapper.IDbTransferMapper">
+
+ <!--查询语句  -->
+    <select id="listTransfer" resultType="DbTransfer">
+   	select d1.department_name olddp,
+     d2.department_name newdp,
+     s.`name`,
+     t.id,
+     t.transfer_time
+     from db_transfer t
+     JOIN db_staff s ON t.staff_name=s.id
+     JOIN db_department d1 ON t.old_department=d1.id
+     JOIN db_department d2 ON t.new_department=d2.id
+     where t.isdelete='0'
+
+    </select>
+    
+   
+    
+    
+    <!--添加语句  -->
+    <insert id="addTransfer">
+    insert into db_transfer
+    values(
+    #{id},
+    (select id from db_staff where name=#{staff_name}),
+    (select id from db_department where department_name=#{old_department}),
+    (select id from db_department where department_name=#{new_department}),
+    #{transfer_time},
+    #{isdelete}
+    )
+    </insert> 
+    
+    <!-- 根据ID查询信息 -->
+	<select id="getTransferByID" resultType="DbTransfer" >
+		SELECT * FROM db_transfer   WHERE id=#{id}
+	</select>
+	
+	<!-- 更新语句 -->
+	<update id="updateTransfer">
+		UPDATE db_transfer SET
+		new_department=(select id from db_department where department_name=#{new_department}) WHERE id=#{id}
+	</update>
+	
+	<!-- 删除语句，根据员工ID删除 -->
+	<update id="deleteTransfer">
+		UPDATE  db_transfer SET isdelete='1' WHERE id=#{id}
+	</update>
+</mapper>

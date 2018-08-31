@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrms.syh.check.mapper.IDbCheckMapper">
+	
+	<!-- 查询考勤表 -->
+	<!-- 
+		<select id="listCheck" resultType="DbCheck">
+		SELECT c.id,c.staff_name,c.office_time,c.check_day,c.check_time,c.check_case FROM db_check c
+	</select>
+	 -->
+	
+	<select id="listCheck" resultType="DbCheck">
+		SELECT c.id,u.name,c.office_time,c.check_day,c.check_time,c.check_case
+		FROM db_check c
+		INNER JOIN db_staff u
+		ON c.staff_name = u.id AND c.isdelete!='1'
+	</select>
+	
+	<!-- 从用户表获取id -->
+	<select id="getIdByAccountAndPassword" resultType="DbUser">
+	SELECT id FROM db_user WHERE db_user.user_account=#{user_account} and db_user.user_password = #{user_password}
+	</select>
+	
+	<!-- 增加考勤表记录 -->
+	<insert id="addCheck">
+		INSERT INTO db_check VALUES(#{id},#{staff_name},#{office_time},#{check_day},#{check_time},#{check_case},#{isdelete})
+	</insert>
+	
+	<!-- 修改考勤表记录 -->
+	<update id="updateCheck">
+		UPDATE db_check
+		SET check_day=#{check_day},check_time=#{check_time},check_case=#{check_case}
+		WHERE id=#{id}
+	</update>
+	
+	<!-- 删除考勤表记录 -->
+	<!-- DELETE FROM db_check WHERE id=#{id} -->
+	<!-- 软删除 -->
+	<delete id="deleteCheck">
+		UPDATE db_check SET isdelete = '1' WHERE id=#{id}
+	</delete>
+	
+</mapper>

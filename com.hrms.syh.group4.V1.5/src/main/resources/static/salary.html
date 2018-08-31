@@ -1,0 +1,360 @@
+﻿<!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>人力资源管理系统-薪资管理</title>
+	
+	<link href="plugins/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="plugins/material-design-iconic-font-2.2.0/css/material-design-iconic-font.min.css" rel="stylesheet"/>
+	<link href="plugins/bootstrap-table-1.11.0/bootstrap-table.min.css" rel="stylesheet"/>
+	<link href="plugins/waves-0.7.5/waves.min.css" rel="stylesheet"/>
+	<link href="plugins/jquery-confirm/jquery-confirm.min.css" rel="stylesheet"/>
+	<link href="plugins/select2/css/select2.min.css" rel="stylesheet"/>
+
+	<link href="css/common.css" rel="stylesheet"/>
+</head>
+<body>
+<div id="main">
+	<div id="toolbar">
+				<a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增薪资记录</a>
+		<a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑薪资记录</a>
+		<a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除薪资记录</a>
+	</div>
+	<table id="table"></table>
+</div>
+<!-- 新增 -->
+<div id="createDialog" class="crudDialog" hidden>
+	<form>
+		<div class="form-group">
+			<label for="input1">员工姓名</label>
+			<input id="staff_name" type="text" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="input2">基础工资</label>
+			<input id="basic_wage" type="text" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="input3">绩效工资</label>
+			<input id="merit_pay" type="text" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="input4">奖惩工资</label>
+			<input id="rewards" type="text" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="input5">工资月份备注</label>
+			<input id="salary_date" type="text" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="input6">工资情况备注</label>
+			<input id="remarks" type="text" class="form-control">
+		</div>
+	</form>
+</div>
+
+<!-- 编辑 -->
+<div id="createDialog1" class="crudDialog" hidden>
+	<form>
+		<div class="form-group">
+			<label for="input1">输入您要修改的员工姓名</label>
+			<input id="staff_name" type="text" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="input2">需要修改哪月份工资</label>
+			<input id="salary_date" type="text" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="input3">修改后的基础工资</label>
+			<input id="basic_wage" type="text" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="input4">修改后的绩效工资</label>
+			<input id="merit_pay" type="text" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="input5">修改后的奖惩工资</label>
+			<input id="rewards" type="text" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="input6">修改后的工资情况备注</label>
+			<input id="remarks" type="text" class="form-control">
+		</div>
+	</form>
+</div>
+
+<script src="plugins/jquery.1.12.4.min.js"></script>
+<script src="plugins/bootstrap-3.3.0/js/bootstrap.min.js"></script>
+<script src="plugins/bootstrap-table-1.11.0/bootstrap-table.min.js"></script>
+<script src="plugins/bootstrap-table-1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="plugins/waves-0.7.5/waves.min.js"></script>
+<script src="plugins/jquery-confirm/jquery-confirm.min.js"></script>
+<script src="plugins/select2/js/select2.min.js"></script>
+
+<script src="js/common.js"></script>
+<script>
+var $table = $('#table');
+$(function() {
+	$(document).on('focus', 'input[type="text"]', function() {
+		$(this).parent().find('label').addClass('active');
+	}).on('blur', 'input[type="text"]', function() {
+		if ($(this).val() == '') {
+			$(this).parent().find('label').removeClass('active');
+		}
+	});
+	// bootstrap table初始化
+	// http://bootstrap-table.wenzhixin.net.cn/zh-cn/documentation/
+	$table.bootstrapTable({
+		url: '/hrms/salary/selectSalary',
+		height: getHeight(),
+		striped: true,
+		search: true,
+		searchOnEnterKey: true,
+		showRefresh: true,
+		showToggle: true,
+		showColumns: true,
+		minimumCountColumns: 2,
+		showPaginationSwitch: true,
+		clickToSelect: true,
+		detailView: true,
+		detailFormatter: 'detailFormatter',
+		pagination: true,
+		paginationLoop: false,
+		classes: 'table table-hover table-no-bordered',
+		//sidePagination: 'server',
+		//silentSort: false,
+		smartDisplay: false,
+		idField: 'id',
+		sortName: 'id',
+		sortOrder: 'desc',
+		escape: true,
+		searchOnEnterKey: true,
+		idField: 'systemId',
+		maintainSelected: true,
+		toolbar: '#toolbar',
+		columns: [
+			{field: 'state', checkbox: true},
+			{field: 'name', title: '员工姓名', sortable: true, halign: 'center'},
+			{field: 'basic_wage', title: '基础工资', sortable: true, halign: 'center'},
+			{field: 'merit_pay', title: '绩效工资', sortable: true, halign: 'center'},
+			{field: 'rewards', title: '奖惩工资', sortable: true, halign: 'center'},
+			{field: 'salary_date', title: '工资月份备注', sortable: true, halign: 'center'},
+			{field: 'remarks', title: '工资情况备注', sortable: true, halign: 'center'},
+			{field: 'action', title: '操作', halign: 'center', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+		]
+	}).on('all.bs.table', function (e, name, args) {
+		$('[data-toggle="tooltip"]').tooltip();
+		$('[data-toggle="popover"]').popover();  
+	});
+});
+
+function actionFormatter(value, row, index) {
+    return [
+        '<a class="like" href="javascript:void(0)" data-toggle="tooltip" title="新增"><i class="glyphicon glyphicon-heart"></i></a>　',
+        '<a class="edit ml10" href="javascript:void(0)" data-toggle="tooltip" title="修改"><i class="glyphicon glyphicon-edit"></i></a>　',
+        '<a class="remove ml10" href="javascript:void(0)" data-toggle="tooltip" title="删除"><i class="glyphicon glyphicon-remove"></i></a>'
+    ].join('');
+}
+
+window.actionEvents = {
+    'click .like': function (e, value, row, index) {
+       // alert('You click like icon, row: ' + JSON.stringify(row));
+        createAction();
+        console.log(value, row, index);
+    },
+    'click .edit': function (e, value, row, index) {
+        //alert('You click edit icon, row: ' + JSON.stringify(row));
+       	updateAction();
+        console.log(value, row, index);
+    },
+    'click .remove': function (e, value, row, index) {
+        //alert('You click remove icon, row: ' + JSON.stringify(row));
+        deleteAction();
+        console.log(value, row, index);
+    }
+};
+
+function detailFormatter(index, row) {
+	var html = [];
+	$.each(row, function (key, value) {
+		html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+	});
+	return html.join('');
+}
+
+// 新增
+function createAction() {
+	$.confirm({
+		type: 'dark',
+		animationSpeed: 300,
+		title: '新增薪资记录',
+		content: $('#createDialog').html(),
+		buttons: {
+			confirm: {
+				text: '确认',
+				btnClass: 'waves-effect waves-button',
+				action: function () {
+					var salary={};
+					salary.staffName = this.$content.find("#staff_name").val();
+					salary.basic_wage = this.$content.find("#basic_wage").val();
+					salary.merit_pay = this.$content.find("#merit_pay").val();
+					salary.rewards = this.$content.find("#rewards").val();
+					salary.salary_date = this.$content.find("#salary_date").val();
+					salary.remarks = this.$content.find("#remarks").val();
+					
+					
+					if(		
+							salary.staffName!=null&&salary.staffName!=""&&
+							salary.basic_wage!=null&&salary.basic_wage!=""&&
+							salary.merit_pay!=null&&salary.merit_pay!=""&&
+							salary.rewards!=null&&salary.rewards!=""&&
+							salary.salary_date!=null&&salary.salary_date!=""&&
+							salary.salary_date!=null&&salary.salary_date!="")
+					{
+					$.ajax({
+						dataType: "",
+						async: true,
+						type: "POST",
+						url: "/hrms/salary/insertSalary",
+						contentType: "application/json",
+						data: JSON.stringify(salary),
+						success: function(result) {
+							console.log(result);
+							
+						}
+					});
+					
+					$.alert('添加成功！');
+					}
+					else{$.alert('请输入全部数据，添加失败！');}
+					
+				}
+			},
+			cancel: {
+				text: '取消',
+				btnClass: 'waves-effect waves-button'
+			}
+		}
+	});
+}
+
+// 更新（根据员工姓名和工资月份备注修改工资信息）
+function updateAction() {
+	var rows = $table.bootstrapTable('getSelections');
+	if (rows.length == 0) {
+		$.confirm({
+			title: false,
+			content: '请至少选择一条记录！',
+			autoClose: 'cancel|3000',
+			backgroundDismiss: true,
+			buttons: {
+				cancel: {
+					text: '取消',
+					btnClass: 'waves-effect waves-button'
+				}
+			}
+		});
+	} else {
+		$.confirm({
+			type: 'blue',
+			animationSpeed: 300,
+			title: '编辑薪资信息',
+			content: $('#createDialog1').html(),
+			buttons: {
+				confirm: {
+					text: '确认',
+					btnClass: 'waves-effect waves-button',
+					action: function () {
+					var salary={};
+					salary.staff_name = this.$content.find("#staff_name").val();
+					salary.salary_date = this.$content.find("#salary_date").val();
+					salary.basic_wage = this.$content.find("#basic_wage").val();
+					salary.merit_pay = this.$content.find("#merit_pay").val();
+					salary.rewards = this.$content.find("#rewards").val();
+					salary.remarks = this.$content.find("#remarks").val();
+					$.ajax({
+						dataType: "",
+						async: true,
+						type: "POST",
+						url: "/hrms/salary/updateSalary",
+						contentType: "application/json",
+						data: JSON.stringify(salary),
+						success: function(result) {
+							console.log(result);
+						}
+					});
+					
+					$.alert('工资信息修改成功！');
+				}
+				},
+				cancel: {
+					text: '取消',
+					btnClass: 'waves-effect waves-button'
+				}
+			}
+		});
+	}
+}
+
+// 删除
+function deleteAction() {
+	var rows = $table.bootstrapTable('getSelections');
+	if (rows.length == 0) {
+		$.confirm({
+			title: false,
+			content: '请至少选择一条记录！',
+			autoClose: 'cancel|3000',
+			backgroundDismiss: true,
+			buttons: {
+				cancel: {
+					text: '取消',
+					btnClass: 'waves-effect waves-button'
+				}
+			}
+		});
+	} else {
+		$.confirm({
+			type: 'red',
+			animationSpeed: 300,
+			title: false,
+			content: '确认删除该条工资记录吗？',
+			buttons: {
+				confirm: {
+					text: '确认',
+					btnClass: 'waves-effect waves-button',
+					action: function () {
+						for(var i in rows){
+							
+							var salary={};
+							salary.id=rows[i].id;
+							
+							console.log(salary);
+							$.ajax({
+								type : "DELETE",
+								url : "/hrms/salary/deleteSalary",
+								contentType : "application/json",
+								data : JSON.stringify(salary),
+								success : function(result) {
+									
+									console.log(result);
+									
+								}
+							});
+								
+							$.alert('工资信息删除成功！');
+							
+					}
+					}
+				},
+				cancel: {
+					text: '取消',
+					btnClass: 'waves-effect waves-button'
+				}
+			}
+		});
+	}
+}
+</script>
+</body>
+</html>

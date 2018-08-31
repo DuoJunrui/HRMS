@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrms.syh.staff.mapper.IDbStaffMapper">
+
+	<!-- 查询语句；id对于绑定的Mapper接口中的同名方法，resultType指定查询结果将按该类型封装SQL执行结果 -->
+	<select id="listStaff" resultType="DbStaff">
+		select 
+		st.id,st.`name`,
+		st.sex,st.age,
+		st.place,st.birth,
+		st.tel,d.department_name,
+		dd.position,st.entry_time,
+		st.leave_time
+		from
+		db_staff st
+		JOIN db_department d
+		ON d.id=st.staff_department
+		JOIN db_department dd
+		ON dd.id=st.staff_position
+		WHERE st.isdelete = '0';
+	</select>
+
+	<!-- 查询语句；获取所有员工记录 -->
+	<select id="getStaffCount"  resultType="int">
+		select COUNT(*) from db_staff
+	</select>
+	
+	<!-- 插入语句 -->
+	<insert id="addStaff">
+		INSERT INTO db_staff
+		VALUES(#{st.id},#{st.name},
+		#{st.sex},#{st.age},#{st.place},
+		#{st.birth},#{st.tel},
+		(select id from db_department where department_name=#{st.staff_department}),
+		(select id from db_department where position=#{st.staff_position}),
+		#{st.entry_time},#{st.leave_time},#{st.isdelete})
+	</insert>
+	
+	<!-- 更新语句 -->
+		<update id="updateStaff">
+   			 update db_staff
+      		  <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            
+            <if test="age != null and age != ''">
+                age = #{age},
+            </if>
+            
+            <if test="place != null and place != ''">
+                place = #{place},
+            </if>
+            
+            <if test="birth != null and birth != ''">
+                birth = #{birth},
+            </if>
+            
+            <if test="tel != null and tel != ''">
+                tel = #{tel},
+            </if>
+            
+            <if test="staff_department != null and staff_department != ''">
+                staff_department =(select id from db_department where department_name= #{staff_department}),
+            </if>
+            
+            <if test="staff_position != null and staff_position != ''">
+                staff_position = (select id from db_department where position= #{staff_position}),
+            </if>   
+                     
+            <if test="entry_time != null and entry_time != ''">
+                entry_time = #{entry_time},
+            </if>   
+                     
+            <if test="leave_time != null and leave_time != ''">
+                leave_time = #{leave_time}
+            </if>            
+      	  </set>
+     		where id=#{id}
+		</update>
+	
+
+	<!-- 删除语句，根据员工ID删除 -->
+	<update id="deleteStaff">
+		 update db_staff set isdelete = '1' WHERE id=#{id}
+	</update>
+	
+</mapper>
