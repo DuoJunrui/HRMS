@@ -1,7 +1,6 @@
+感谢zhengAdmin提供前端学习模板
 
 基于bootstrap实现的响应式Material Design风格的通用后台管理系统
-
-交流QQ群：133107819🈵、284280411🈵、305155242🈵、528049386🈵、157869467🈵、570766789🈵、601147566♨️ 
 
 # 前端技术:
 技术 | 名称 | 官网
@@ -18,3 +17,4 @@ jquery-confirm | 弹出窗口插件  | [https://github.com/craftpip/jquery-confi
 jQuery EasyUI | 基于jQuery的UI插件集合体  | [http://www.jeasyui.com](http://www.jeasyui.com)
 React | 界面构建框架  | [https://github.com/facebook/react](https://github.com/facebook/react)
 Editor.md | Markdown编辑器  | [https://github.com/pandao/editor.md](https://github.com/pandao/editor.md)
+zhengAdmin | 后台管理系统模板  | [https://github.com/shuzheng/zhengAdmin](https://github.com/shuzheng/zhengAdmin)
